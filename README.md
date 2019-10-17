@@ -8,3 +8,6 @@ This Python development template provides an example of how the full build envir
   - https://pipenv.readthedocs.io/en/latest/
 
 All details relating to this repository are available in the wiki section.
+
+
+[![Build Status](https://travis-ci.com/NathanShanners/PDT.svg?branch=master)](https://travis-ci.com/NathanShanners/PDT)

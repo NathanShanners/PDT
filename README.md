@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/NathanShanners/PDT.svg?branch=master)](https://travis-ci.com/NathanShanners/PDT)
 # Python Development Template (PDT)
 This Python development template provides an example of how the full build environment configuration can easily be included in the design repository and mirrored across multiple developers.  Two options which are considered for this Python Development Template are (in order of priority)
 1. Pip (simple)

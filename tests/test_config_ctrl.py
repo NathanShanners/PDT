@@ -38,25 +38,28 @@ def test_config_file_control():
 def test_config_parameters():
     # Import control
     from common_config_ctrl import config_open_file
-    from common_testing import not_raises
+    # from common_testing import not_raises
 
     # Declare variables
     config_filename = "config.ini"
 
     # Read config file
-    config_dict = config_open_file(config_filename)
+    config = config_open_file(config_filename)
 
-    # Check parameters
-    with not_raises(Exception):
-        fh_level = config_dict['Logger PDT']['file_handler_level']
-        sh_level = config_dict['Logger PDT']['stream_handler_level']
+    # Check sections
+    section = 'Logger PDT'
+    assert config.has_section(section), 'Section %s does not exist in config file' % section
 
-    # Return variables (used to stop warnings in PyCharm for unused variables)
-    return fh_level + sh_level
+    # Check keys
+    section = 'Logger PDT'
+    key = 'file_handler_level'
+    assert config.has_option(section, key), \
+        'Section %s does not contain key %s in config file' % (section, key)
 # </editor-fold>
 
 
 # <editor-fold desc="Main script for this test file">
 if __name__ == '__main__':
+    test_config_parameters()
     a = 6
 # </editor-fold>

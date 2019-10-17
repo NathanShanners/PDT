@@ -37,14 +37,18 @@ def test_config_file_control():
 # <editor-fold desc="Function to test the config file has all the required parameters">
 def test_config_parameters():
     # Import control
+    import pytest
     from common_config_ctrl import config_open_file
-    # from common_testing import not_raises
 
     # Declare variables
     config_filename = "config.ini"
 
     # Read config file
     config = config_open_file(config_filename)
+
+    # Check file reads correctly
+    if config == 'Error':  # Error occurred when reading as config is a string rather than config object
+        raise pytest.fail('Config object indicates error occurred when trying to read config file')
 
     # Check sections
     section = 'Logger PDT'
@@ -53,6 +57,11 @@ def test_config_parameters():
     # Check keys
     section = 'Logger PDT'
     key = 'file_handler_level'
+    assert config.has_option(section, key), \
+        'Section %s does not contain key %s in config file' % (section, key)
+
+    section = 'Logger PDT'
+    key = 'stream_handler_level'
     assert config.has_option(section, key), \
         'Section %s does not contain key %s in config file' % (section, key)
 # </editor-fold>

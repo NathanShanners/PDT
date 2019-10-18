@@ -7,24 +7,33 @@
 
 
 # <editor-fold desc="Function to open the requested config file">
-def config_open_file(config_filename):
+def config_open_file(logger_name, config_filename):
     # Import Control
     import os.path
     import configparser
+    import logging
+
+    # Function logger (handlers typically picked up from parent)
+    if logger_name is not None:
+        fcn_logger = logging.getLogger(logger_name + '.config_open_file')
+    else:
+        fcn_logger = None
 
     #  Define variables
     cwd = os.getcwd()
-    if cwd.find('\\tests'):
-        print('Replacing tests in file path, assuming in test mode')
-    cwd = cwd.replace('\\tests', '')  # Replace tests folder (used for py.test)
+    if '\\tests' in cwd:
+        cwd = cwd.replace('\\tests', '')  # Replace tests folder (used for py.test)
+        if logger_name is not None:
+            fcn_logger.info('Replacing tests in file path, assuming in test mode')
     config_file_path = cwd + '\\' + config_filename
     # Read config file & parse parameters
     if os.path.exists(config_file_path):
         config = configparser.ConfigParser()
         config.read(config_file_path)
     else:  # Config file is missing
-        print('Config file is missing %s' % config_file_path)
         config = 'Error'
+        if logger_name is not None:
+            fcn_logger.error('Config file is missing %s' % config_file_path)
 
     # Return output from function
     return config

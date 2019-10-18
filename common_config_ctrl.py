@@ -20,7 +20,8 @@ def config_open_file(logger_name, config_filename):
         fcn_logger = None
 
     #  Define variables
-    cwd = os.getcwd()
+    # cwd = os.getcwd()
+    cwd = os.path.dirname(os.path.abspath(__file__))
     if '\\tests' in cwd:
         cwd = cwd.replace('\\tests', '')  # Replace tests folder (used for py.test)
         if logger_name is not None:

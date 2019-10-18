@@ -20,6 +20,10 @@ def test_config_file_exists():
     # Declare variables
     config_filename = 'config.ini'
 
+    a = os.path.dirname(os.path.abspath(__file__))
+
+    a = os.path.exists(config_filename)
+
     # Check file exists
     assert os.path.exists(config_filename), 'Config file "config.ini" does not exist'  # Check config file exists
 # </editor-fold>
@@ -34,7 +38,7 @@ def test_config_file_control():
 
     # Check error handling
     with not_raises(Exception):  # Check that error does not get raised as error handling should occur
-        config_dict = config_open_file('not_a_config_file.ini')
+        config_dict = config_open_file(None, 'not_a_config_file.ini')
     if config_dict != 'Error':  # Check variable does get assigned the string value of "Error" when file doesn't exist
         raise pytest.fail('Config object did not indicate error occurred when trying to read non-existent file')
 # </editor-fold>
@@ -106,5 +110,5 @@ def test_config_parameters():
 
 # <editor-fold desc="Main script for this test file">
 if __name__ == '__main__':
-    a = 6
+    test_config_file_exists()
 # </editor-fold>

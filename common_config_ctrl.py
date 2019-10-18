@@ -14,21 +14,26 @@ def config_open_file(logger_name, config_filename):
     import logging
 
     # Function logger (handlers typically picked up from parent)
-    fcn_logger = logging.getLogger(logger_name + '.config_open_file')
+    if logger_name is not None:
+        fcn_logger = logging.getLogger(logger_name + '.config_open_file')
+    else:
+        fcn_logger = None
 
     #  Define variables
     cwd = os.getcwd()
     if '\\tests' in cwd:
-        fcn_logger.info('Replacing tests in file path, assuming in test mode')
-    cwd = cwd.replace('\\tests', '')  # Replace tests folder (used for py.test)
+        cwd = cwd.replace('\\tests', '')  # Replace tests folder (used for py.test)
+        if logger_name is not None:
+            fcn_logger.info('Replacing tests in file path, assuming in test mode')
     config_file_path = cwd + '\\' + config_filename
     # Read config file & parse parameters
     if os.path.exists(config_file_path):
         config = configparser.ConfigParser()
         config.read(config_file_path)
     else:  # Config file is missing
-        fcn_logger.error('Config file is missing %s' % config_file_path)
         config = 'Error'
+        if logger_name is not None:
+            fcn_logger.error('Config file is missing %s' % config_file_path)
 
     # Return output from function
     return config

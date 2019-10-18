@@ -72,7 +72,7 @@ def section_key_test(config_obj, sec, sec_key):
 
 # <editor-fold desc="Function to test the config file has all the required parameters">
 # ToDo: Fix tests for Linux OS
-# @pytest.mark.skipif(sys.platform == "linux", reason="tests for windows only")
+@pytest.mark.skipif(sys.platform == "linux", reason="tests for windows only")
 def test_config_parameters():
     # Import control
     import pytest

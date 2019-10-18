@@ -20,10 +20,6 @@ def test_config_file_exists():
     # Declare variables
     config_filename = 'config.ini'
 
-    a = os.path.dirname(os.path.abspath(__file__))
-
-    a = os.path.exists(config_filename)
-
     # Check file exists
     assert os.path.exists(config_filename), 'Config file "config.ini" does not exist'  # Check config file exists
 # </editor-fold>
@@ -86,7 +82,7 @@ def test_config_parameters():
     config_filename = "config.ini"
 
     # Read config file
-    config = config_open_file(config_filename)
+    config = config_open_file(None, config_filename)
 
     # Check file reads correctly
     if config == 'Error':  # Error occurred when reading as config is a string rather than config object

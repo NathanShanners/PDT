@@ -6,6 +6,12 @@
 # </editor-fold>
 
 
+# <editor-fold desc="Import Control">
+import sys
+import pytest
+# </editor-fold>
+
+
 # <editor-fold desc="Function to test the config file exists">
 def test_config_file_exists():
     # Import control
@@ -34,7 +40,38 @@ def test_config_file_control():
 # </editor-fold>
 
 
+# <editor-fold desc="Function to define reference config data dictionaries (initialise)">
+def create_ref_config_dict():
+    # Initialise variables
+    cfg_dict = dict()
+    sec_dict = dict()
+
+    # Create dictionary for section 'Logger PDT'
+    sec = 'Logger PDT'  # Define section name
+    sec_dict['file_handler_level'] = 'INFO'
+    sec_dict['stream_handler_level'] = 'INFO'
+    cfg_dict[sec] = sec_dict  # Update main data dictionary
+
+    # Assign output of function
+    return cfg_dict
+# </editor-fold>
+
+
+# <editor-fold desc="Function to test if provided section exists in the provided config object">
+def section_test(config_obj, sec):
+    assert config_obj.has_section(sec), 'Section %s does not exist in config file' % sec
+# </editor-fold>
+
+
+# <editor-fold desc="Function to test if provided section and key exist in the provided config object">
+def section_key_test(config_obj, sec, sec_key):
+    assert config_obj.has_option(sec, sec_key), \
+        'Section %s does not contain key %s in config file' % (sec, sec_key)
+# </editor-fold>
+
+
 # <editor-fold desc="Function to test the config file has all the required parameters">
+@pytest.mark.skipif(sys.platform == "linux", reason="tests for windows only")
 def test_config_parameters():
     # Import control
     import pytest
@@ -50,25 +87,23 @@ def test_config_parameters():
     if config == 'Error':  # Error occurred when reading as config is a string rather than config object
         raise pytest.fail('Config object indicates error occurred when trying to read config file')
 
-    # Check sections
-    section = 'Logger PDT'
-    assert config.has_section(section), 'Section %s does not exist in config file' % section
+    # Create reference data dictionary for config variables
+    ref_config_dict = create_ref_config_dict()
 
-    # Check keys
-    section = 'Logger PDT'
-    key = 'file_handler_level'
-    assert config.has_option(section, key), \
-        'Section %s does not contain key %s in config file' % (section, key)
+    # Check every section in reference data dictionary
+    for section in ref_config_dict:
+        section_test(config, section)
 
-    section = 'Logger PDT'
-    key = 'stream_handler_level'
-    assert config.has_option(section, key), \
-        'Section %s does not contain key %s in config file' % (section, key)
+    # Check every key in reference data dictionary
+    for section in ref_config_dict:
+        section_dict = ref_config_dict[section]
+        for key in section_dict:
+            print('Section %s, Key %s, Value %s' % (section, key, section_dict[key]))
+            section_key_test(config, section, key)
 # </editor-fold>
 
 
 # <editor-fold desc="Main script for this test file">
 if __name__ == '__main__':
-    test_config_parameters()
     a = 6
 # </editor-fold>

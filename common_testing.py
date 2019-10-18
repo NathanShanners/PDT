@@ -6,7 +6,6 @@
 # </editor-fold>
 
 # <editor-fold desc="Import Control">
-import pytest
 from contextlib import contextmanager
 # </editor-fold>
 
@@ -14,6 +13,10 @@ from contextlib import contextmanager
 # <editor-fold desc="Function to check if except is not raised when executed">
 @contextmanager
 def not_raises(exception):
+    # Import control
+    import pytest
+
+    # Main code (error handling)
     try:
         yield
     except exception:

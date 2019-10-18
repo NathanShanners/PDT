@@ -104,4 +104,8 @@ venv.bak/
 .mypy_cache/
 
 # PyCharm
+<<<<<<< HEAD
 .idea/
+=======
+/.idea
+>>>>>>> 8c6eb0875c0dba3576eb0141f98bd4c3c6dc6937

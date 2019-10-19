@@ -34,7 +34,7 @@ def test_config_file_control():
 
     # Check error handling
     with not_raises(Exception):  # Check that error does not get raised as error handling should occur
-        config_dict = config_open_file('not_a_config_file.ini')
+        config_dict = config_open_file(None, 'not_a_config_file.ini')
     if config_dict != 'Error':  # Check variable does get assigned the string value of "Error" when file doesn't exist
         raise pytest.fail('Config object did not indicate error occurred when trying to read non-existent file')
 # </editor-fold>
@@ -71,6 +71,7 @@ def section_key_test(config_obj, sec, sec_key):
 
 
 # <editor-fold desc="Function to test the config file has all the required parameters">
+# ToDo: Fix tests for Linux OS
 @pytest.mark.skipif(sys.platform == "linux", reason="tests for windows only")
 def test_config_parameters():
     # Import control
@@ -78,10 +79,10 @@ def test_config_parameters():
     from common_config_ctrl import config_open_file
 
     # Declare variables
-    config_filename = "config.ini"
+    config_filename = 'config.ini'
 
     # Read config file
-    config = config_open_file(config_filename)
+    config = config_open_file(None, config_filename)
 
     # Check file reads correctly
     if config == 'Error':  # Error occurred when reading as config is a string rather than config object
@@ -105,5 +106,5 @@ def test_config_parameters():
 
 # <editor-fold desc="Main script for this test file">
 if __name__ == '__main__':
-    a = 6
+    test_config_file_exists()
 # </editor-fold>

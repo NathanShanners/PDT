@@ -79,7 +79,7 @@ def test_config_parameters():
     from common_config_ctrl import config_open_file
 
     # Declare variables
-    config_filename = "config.ini"
+    config_filename = 'config.ini'
 
     # Read config file
     config = config_open_file(None, config_filename)

@@ -40,11 +40,17 @@ if __name__ == "__main__":
     from common_logger_ctrl import logger_config_update
 
     # Define variables
-    lgr_name = 'PDT'
+    app_version = "2019.10.19"
+    app_lgr_name = 'PDT'
+    ver_lgr_name = 'Version'
     loop_num = 0
 
-    # Create logger
-    pdt_logger = create_logger(lgr_name)
+    # Create loggers
+    pdt_logger = create_logger(app_lgr_name)
+    ver_logger = create_logger(ver_lgr_name)
+
+    # Update version log
+    ver_logger.info('Starting PDT Version %s' % app_version)
 
     # Main app code goes here
     while True:  # Continuous loop
@@ -54,8 +60,11 @@ if __name__ == "__main__":
         # Update variables
         loop_num = loop_num + 1
 
+        # Update log
+        pdt_logger.info('Starting PDT Application (version %s) Loop Number %d' % (app_version, loop_num))
+
         # Read config file and update logger
-        config_obj = logger_config_update(lgr_name, pdt_logger)  # Also reads config file
+        config_obj = logger_config_update(app_lgr_name, pdt_logger)  # Also reads config file
         # ToDo: Add config value checker for parameters & types
 
         # Check for application exit
@@ -68,7 +77,7 @@ if __name__ == "__main__":
             loop_freq = config_obj['App PDT'].getfloat('loop_freq')
             pdt_logger.info('Running Python Development Template Application - Loop Freq %.2f Seconds'
                             % loop_freq)
-            pdt_main_app(lgr_name, config_obj)  # Run main application
+            pdt_main_app(app_lgr_name, config_obj)  # Run main application
         else:
             loop_freq = 5
             pdt_logger.info('Python Development Template Application Disabled - Loop Freq %.2f Seconds'

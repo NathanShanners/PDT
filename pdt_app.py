@@ -27,7 +27,6 @@ def pdt_main_app(logger_name, config):
     fcn_logger.info('Application Enable Value = %s' % app_enable)
     time_elapsed = time.time() - time_start
     fcn_logger.info('Completed main PDT function in %.2f Seconds' % time_elapsed)
-
 # </editor-fold>
 
 

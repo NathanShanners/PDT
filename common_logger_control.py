@@ -43,17 +43,17 @@ def create_logger(logger_name):
 
 
 # <editor-fold desc="Function to update logger handlers from config file">
-def logger_config_update(logger_name, logger):
+def logger_config_update(config_filename, logger_name, logger):
     # Import control
-    from common_config_ctrl import config_open_file
+    from common_config_control import config_open_file
     import logging
 
     # Function logger (handlers typically picked up from parent)
-    fcn_logger = logging.getLogger(logger_name + '.common_logger_ctrl.logger_config_update')
+    fcn_logger = logging.getLogger(logger_name + '.common_logger_control.logger_config_update')
     fcn_logger.info('Updating logger configuration')
 
     # Read config file
-    config = config_open_file(logger_name, 'config.ini')
+    config = config_open_file(logger_name, config_filename)
 
     # Parse parameters
     try:
@@ -80,7 +80,7 @@ def logger_list_active(logger_name):
     import logging
 
     # Function logger
-    fcn_logger = logging.getLogger(logger_name + '.common_logger_ctrl.logger_list_active')
+    fcn_logger = logging.getLogger(logger_name + '.common_logger_control.logger_list_active')
     fcn_logger.info('Getting dictionary of all active loggers')
 
     # Get a dictionary of all loggers
@@ -99,6 +99,7 @@ if __name__ == "__main__":
 
     # Define variables
     lgr_name = 'PDT'
+    cfg_filename = 'config.ini'
 
     # Create logger
     app_logger = create_logger(lgr_name)
@@ -110,7 +111,7 @@ if __name__ == "__main__":
     app_logger.error('Error message')
 
     # Update logger from config file
-    logger_config_update(lgr_name, app_logger)
+    logger_config_update(cfg_filename, lgr_name, app_logger)
 
     # Test messages
     app_logger.debug('Debug message')

@@ -6,27 +6,30 @@
 # </editor-fold>
 
 
-# <editor-fold desc="Function containing all classes, functions and scripts related to main PDT application">
-def pdt_main_app(logger_name, config):
+# <editor-fold desc="Function containing all classes, functions and scripts related to main application">
+def jta_main_app(logger_name, config):
     # Import control
     import logging
     import time
+
+    # Define variables
+    fcn_app_tla = 'PDT'
 
     # Start timer
     time_start = time.time()
 
     # Function logger (handlers typically picked up from parent)
-    fcn_logger = logging.getLogger(logger_name + '.pdt_main_app')
-    fcn_logger.info('Executing main PDT function')
+    fcn_logger = logging.getLogger(logger_name + '.' + fcn_app_tla.lower() + '_main_app')
+    fcn_logger.info('Executing main %s function' % app_tla)
 
     # Dummy function
     time.sleep(2)
 
     # Update log
-    app_enable = config['App PDT']['app_enable']
+    app_enable = config['App ' + fcn_app_tla]['app_enable']
     fcn_logger.info('Application Enable Value = %s' % app_enable)
     time_elapsed = time.time() - time_start
-    fcn_logger.info('Completed main PDT function in %.2f Seconds' % time_elapsed)
+    fcn_logger.info('Completed main %s function in %.2f Seconds' % (fcn_app_tla, time_elapsed))
 # </editor-fold>
 
 
@@ -35,21 +38,23 @@ if __name__ == "__main__":
     # Import control
     import time
     import sys
-    from common_logger_ctrl import create_logger
-    from common_logger_ctrl import logger_config_update
+    from common_logger_control import create_logger
+    from common_logger_control import logger_config_update
 
     # Define variables
-    app_version = "2019.10.19"
-    app_lgr_name = 'PDT'
+    app_tla = 'PDT'
+    app_name = 'Python Development Template'
+    app_version = '2019.10.26'
     ver_lgr_name = 'Version'
+    config_filename = 'config.ini'
     loop_num = 0
 
     # Create loggers
-    pdt_logger = create_logger(app_lgr_name)
+    app_logger = create_logger(app_tla)
     ver_logger = create_logger(ver_lgr_name)
 
     # Update version log
-    ver_logger.info('Starting PDT Version %s' % app_version)
+    ver_logger.info('Starting %s Version %s' % (app_tla, app_version))
 
     # Main app code goes here
     while True:  # Continuous loop
@@ -60,27 +65,26 @@ if __name__ == "__main__":
         loop_num = loop_num + 1
 
         # Update log
-        pdt_logger.info('Starting PDT Application (version %s) Loop Number %d' % (app_version, loop_num))
+        app_logger.info('Starting %s Application (version %s) Loop Number %d' % (app_tla, app_version, loop_num))
 
         # Read config file and update logger
-        config_obj = logger_config_update(app_lgr_name, pdt_logger)  # Also reads config file
+        config_obj = logger_config_update(config_filename, app_tla, app_logger)  # Also reads config file
         # ToDo: Add config value checker for parameters & types
 
         # Check for application exit
-        if config_obj['App PDT'].getboolean('app_exit'):
-            pdt_logger.info('Exiting Python Development Template Application')
+        # ToDo: Update code below to split out app config section first, then process section keys
+        if config_obj['App ' + app_tla].getboolean('app_exit'):
+            app_logger.info('Exiting %s' % app_name)
             sys.exit()
 
         # Run application if enabled, otherwise wait for next loop
-        if config_obj['App PDT'].getboolean('app_enable'):
-            loop_freq = config_obj['App PDT'].getfloat('loop_freq')
-            pdt_logger.info('Running Python Development Template Application - Loop Freq %.2f Seconds'
-                            % loop_freq)
-            pdt_main_app(app_lgr_name, config_obj)  # Run main application
+        if config_obj['App ' + app_tla].getboolean('app_enable'):
+            loop_freq = config_obj['App ' + app_tla].getfloat('loop_freq')
+            app_logger.info('Running %s - Loop Freq %.2f Seconds' % (app_name, loop_freq))
+            jta_main_app(app_tla, config_obj)  # Run main application
         else:
             loop_freq = 5
-            pdt_logger.info('Python Development Template Application Disabled - Loop Freq %.2f Seconds'
-                            % loop_freq)
+            app_logger.info('%s Disabled - Loop Freq %.2f Seconds' % (app_name, loop_freq))
 
         # Check for next application loop
         while True:
@@ -89,5 +93,5 @@ if __name__ == "__main__":
                 break
 
         # Update log
-        pdt_logger.info('Completed PDT Application Loop Number %d' % loop_num)
+        app_logger.info('Completed %s Loop Number %d' % (app_name, loop_num))
 # </editor-fold>

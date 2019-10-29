@@ -43,10 +43,13 @@ def create_logger(logger_name):
 
 
 # <editor-fold desc="Function to update logger handlers from config file">
-def logger_config_update(config_filename, logger_name, logger):
+def logger_config_update(config_filename, logger_name):
     # Import control
     from common_config_control import config_open_file
     import logging
+
+    # Main logger (App logger)
+    logger = logging.getLogger(logger_name)
 
     # Function logger (handlers typically picked up from parent)
     fcn_logger = logging.getLogger(logger_name + '.common_logger_control.logger_config_update')
@@ -111,7 +114,7 @@ if __name__ == "__main__":
     app_logger.error('Error message')
 
     # Update logger from config file
-    logger_config_update(cfg_filename, lgr_name, app_logger)
+    logger_config_update(cfg_filename, lgr_name)
 
     # Test messages
     app_logger.debug('Debug message')

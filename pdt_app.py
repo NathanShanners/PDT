@@ -7,29 +7,26 @@
 
 
 # <editor-fold desc="Function containing all classes, functions and scripts related to main application">
-def jta_main_app(logger_name, config):
+def pdt_main_app(logger_name, params_dict):
     # Import control
     import logging
     import time
-
-    # Define variables
-    fcn_app_tla = 'PDT'
 
     # Start timer
     time_start = time.time()
 
     # Function logger (handlers typically picked up from parent)
-    fcn_logger = logging.getLogger(logger_name + '.' + fcn_app_tla.lower() + '_main_app')
-    fcn_logger.info('Executing main %s function' % app_tla)
+    fcn_logger = logging.getLogger(logger_name + '.' + logger_name.lower() + '_main_app')
+    fcn_logger.info('Executing main %s function' % logger_name)
 
     # Dummy function
     time.sleep(2)
 
     # Update log
-    app_enable = config['App ' + fcn_app_tla]['app_enable']
+    app_enable = params_dict['app_enable']
     fcn_logger.info('Application Enable Value = %s' % app_enable)
     time_elapsed = time.time() - time_start
-    fcn_logger.info('Completed main %s function in %.2f Seconds' % (fcn_app_tla, time_elapsed))
+    fcn_logger.info('Completed main %s function in %.2f Seconds' % (logger_name, time_elapsed))
 # </editor-fold>
 
 
@@ -39,7 +36,8 @@ if __name__ == "__main__":
     import time
     import sys
     from common_logger_control import create_logger
-    from common_logger_control import logger_config_update
+    from config_params_dict import config_params
+    from common_config_control import read_config_file
 
     # Define variables
     app_tla = 'PDT'
@@ -48,6 +46,7 @@ if __name__ == "__main__":
     ver_lgr_name = 'Version'
     config_filename = 'config.ini'
     loop_num = 0
+    params_def_dict = config_params()  # Definition of all parameters expected in config file
 
     # Create loggers
     app_logger = create_logger(app_tla)
@@ -68,20 +67,20 @@ if __name__ == "__main__":
         app_logger.info('Starting %s Application (version %s) Loop Number %d' % (app_tla, app_version, loop_num))
 
         # Read config file and update logger
-        config_obj = logger_config_update(config_filename, app_tla, app_logger)  # Also reads config file
-        # ToDo: Add config value checker for parameters & types
+        config_section = 'App ' + app_tla
+        app_params_dict = read_config_file(app_tla, config_filename, config_section, params_def_dict[config_section])
 
         # Check for application exit
         # ToDo: Update code below to split out app config section first, then process section keys
-        if config_obj['App ' + app_tla].getboolean('app_exit'):
+        if app_params_dict['app_exit']:
             app_logger.info('Exiting %s' % app_name)
             sys.exit()
 
         # Run application if enabled, otherwise wait for next loop
-        if config_obj['App ' + app_tla].getboolean('app_enable'):
-            loop_freq = config_obj['App ' + app_tla].getfloat('loop_freq')
+        if app_params_dict['app_enable']:
+            loop_freq = app_params_dict['loop_freq']
             app_logger.info('Running %s - Loop Freq %.2f Seconds' % (app_name, loop_freq))
-            jta_main_app(app_tla, config_obj)  # Run main application
+            pdt_main_app(app_tla, app_params_dict)  # Run main application
         else:
             loop_freq = 5
             app_logger.info('%s Disabled - Loop Freq %.2f Seconds' % (app_name, loop_freq))

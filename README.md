@@ -12,7 +12,7 @@ Two options are considered for the setup of a virtual environment (venv)
   - https://pipenv.readthedocs.io/en/latest/
 
 ## Development Environment
-Provides an overview for operation on different Operating Systems including setup of environment variables.  This also covers Integrated Development Environment (IDE) tools (i.e. PyCharm) and how to setup specific features.
+Provides an overview for operation on different Operating Systems including setup of environment variables.  This also covers Integrated Development Environment (IDE) tools (i.e. PyCharm) and how to setup specific features.  This is now covered in the wiki which is available [here](https://github.com/NathanShanners/PDT/wiki/Development-Environments)
 
 ## Continuous Integration
 This section covers options for integrating CI capability into Github.

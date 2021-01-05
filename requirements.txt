@@ -1,1 +1,2 @@
 PyInstaller==3.5
+cx-Freeze==6.5

@@ -1,2 +1,1 @@
-PyInstaller==3.5
-cx-Freeze==6.5
+alive-progress==1.6.1

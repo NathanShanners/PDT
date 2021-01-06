@@ -1,8 +1,11 @@
 # <editor-fold desc="File Header">
-# Copyright   : Copyright information (if applicable)
-# Author      : Author Name
-# Date        : 17/10/2019
+# Copyright   :
 # Description : This python file contains all classes, functions and scripts related to config file control
+# </editor-fold>
+
+
+# <editor-fold desc="Python file variables">
+filename = 'common_config_control'  # Name of python filename (useful for logger traceability)
 # </editor-fold>
 
 
@@ -13,9 +16,12 @@ def config_open_file(logger_name, config_filename):
     import configparser
     import logging
 
+    # Constants
+    fcn_name = 'config_open_file'
+
     # Function logger (handlers typically picked up from parent)
     if logger_name is not None:
-        fcn_logger = logging.getLogger(logger_name + '.config_open_file')
+        fcn_logger = logging.getLogger(logger_name + '.' + fcn_name)
     else:
         fcn_logger = None
 
@@ -41,11 +47,9 @@ def config_open_file(logger_name, config_filename):
 
 
 # <editor-fold desc="Function - Config File Reader">
-def read_config_file(logger_name, filename, section, params_dict_def):
+def read_config_file(logger_name, cfg_filename, section, params_dict_def):
     # <editor-fold desc="Function Info">
-    # Copyright   : Copyright information (if applicable)
-    # Author : Author Name
-    # Date : 12/07/2019
+    # Copyright : InnoQuanTech Ltd
     # Description : Function which reads a specific section of a config file
     #               If an error is encountered the whole application will terminate
     # </editor-fold>
@@ -54,29 +58,23 @@ def read_config_file(logger_name, filename, section, params_dict_def):
     from common_variable_control import custom_convert
     from common_variable_control import auto_update_dict
     from common_logger_control import logger_config_update
-    # import configparser
-    # import os
     import sys
     import logging
 
+    # Constants
+    fcn_name = 'read_config_file'
+
     # Function logger (handlers typically picked up from parent)
     if logger_name is not None:
-        fcn_logger = logging.getLogger(logger_name + '.read_config_file')
+        logger_name = logger_name + '.' + fcn_name
+        fcn_logger = logging.getLogger(logger_name)
     else:
         fcn_logger = None
 
     # Import Configuration
-    config = logger_config_update(filename, logger_name)  # Updates logger and reads config file
-    # config = configparser.ConfigParser()
-    # config.sections()
-    # # Open file (Exit application if doesn't exist)
-    # if os.path.isfile(filename):
-    #     config.read(filename)  # Read config file
-    # else:
-    #     fcn_logger.Error('Config file %s does not exist' % filename)
-    #     sys.exit()  # Exit application
+    config = logger_config_update(cfg_filename, logger_name)  # Updates logger and reads config file
 
-    # Read JIRA server parameters from Config file
+    # Read parameters from Config file
     params_dict = {}
     # TODO: Split the following code as a common function or method for config control
     if section in config:
@@ -87,7 +85,7 @@ def read_config_file(logger_name, filename, section, params_dict_def):
                 param_value = custom_convert(param_type, param_value_str)
                 params_dict = auto_update_dict(params_dict, param_name, param_value)
             except KeyError:
-                fcn_logger.Error('Error: Reading variable "%s" from section "%s" in config file' %
+                fcn_logger.error('Error: Reading variable "%s" from section "%s" in config file' %
                                  (param_name, section))
                 sys.exit()  # Exit application
                 # TODO: May want to just return an error flag to allow the caller to decide if the app should terminate

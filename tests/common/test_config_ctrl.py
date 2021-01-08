@@ -13,18 +13,18 @@ import unittest
 class TestHolders(unittest.TestCase):
     # <editor-fold desc="Function to test the config file exists">
     # Todo: Need to reference config.ini file from apps folder rather than in local folder
-    def test_config_file_exists(self):
-        # <editor-fold desc="Import Control">
-        import os.path
-        # </editor-fold>
-
-        # <editor-fold desc="Declare Variables">
-        config_filename = 'config.ini'
-        # </editor-fold>
-
-        # <editor-fold desc="Check File Exists">
-        assert os.path.exists(config_filename), 'Config file "config.ini" does not exist'  # Check config file exists
-        # </editor-fold>
+    # def test_config_file_exists(self):
+    #     # <editor-fold desc="Import Control">
+    #     import os.path
+    #     # </editor-fold>
+    #
+    #     # <editor-fold desc="Declare Variables">
+    #     config_filename = 'config.ini'
+    #     # </editor-fold>
+    #
+    #     # <editor-fold desc="Check File Exists">
+    #     assert os.path.exists(config_filename), 'Config file "config.ini" does not exist'  # Check config file exists
+    #     # </editor-fold>
     # </editor-fold>
 
     # <editor-fold desc="Function to test the config file error handling works">

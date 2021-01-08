@@ -1,1 +1,2 @@
-PyInstaller==3.5
+alive-progress==1.6.1
+pytest==6.2.1

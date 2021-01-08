@@ -1,7 +1,5 @@
 # <editor-fold desc="File Header">
-# Copyright   : Copyright information (if applicable)
-# Author : Author Name
-# Date : 12/07/2019
+# Copyright   :
 # Description : This python file contains classes, functions and scripts related to common variable conversions
 # </editor-fold>
 
